@@ -117,6 +117,7 @@ describe('user account CRUD routes', () => {
     });
 
   });
+
   it('updates one user by id via PATCH', async () => {
     const user = await User.insert({
       id: '2',
@@ -137,6 +138,24 @@ describe('user account CRUD routes', () => {
       ...user,
       userName: 'Ty_33Ford',
     });
+  });
 
+  it('deletes a user by id via DELETE', async () => {
+    const user = await User.insert({
+      id: '1',
+      firstName: 'Kheara',
+      lastName: 'Rhodes',
+      email: 'KRhodes23@email.com',
+      userName: 'K_Rhodes23',
+      pin: '1234',
+    });
+
+    const res = await request(app)
+      .delete(`/api/v1/users/${user.id}`);
+    
+    expect(res.body).toEqual({
+      message: `${user.userName} library account has been successfully deleted.`,
+      mailPreview2: expect.any(String)
+    });
   });
 });
