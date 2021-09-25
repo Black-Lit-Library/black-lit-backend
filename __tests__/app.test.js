@@ -117,4 +117,26 @@ describe('user account CRUD routes', () => {
     });
 
   });
+  it('updates one user by id via PATCH', async () => {
+    const user = await User.insert({
+      id: '2',
+      firstName: 'Tyshawn',
+      lastName: 'Ford',
+      email: 'TFord33@email.com',
+      userName: 'T_Ford33',
+      pin: '4321'
+    });
+
+    const res = await request(app)
+      .patch(`/api/v1/users/${user.id}`)
+      .send({
+        userName: 'Ty_33Ford',
+      });
+
+    expect(res.body).toEqual({
+      ...user,
+      userName: 'Ty_33Ford',
+    });
+
+  });
 });
