@@ -79,4 +79,42 @@ describe('user account CRUD routes', () => {
       });
   });
 
+  it('get one user by id via GET', async () => {
+    const user = await User.insert({
+      id: '2',
+      firstName: 'Tyshawn',
+      lastName: 'Ford',
+      email: 'TFord33@email.com',
+      userName: 'T_Ford33',
+      pin: '4321'
+    });
+
+    const res = await request(app)
+      .get(`/api/v1/users/${user.id}`);
+    
+    expect(res.body).toEqual(user);
+  });
+  
+  it('updates one user by id via PUT', async () => {
+    const user = await User.insert({
+      id: '2',
+      firstName: 'Tyshawn',
+      lastName: 'Ford',
+      email: 'TFord33@email.com',
+      userName: 'T_Ford33',
+      pin: '4321'
+    });
+
+    const res = await request(app)
+      .put(`/api/v1/users/${user.id}`)
+      .send({
+        firstName: 'Ty',
+      });
+
+    expect(res.body).toEqual({
+      ...user,
+      firstName: 'Ty',
+    });
+
+  });
 });
